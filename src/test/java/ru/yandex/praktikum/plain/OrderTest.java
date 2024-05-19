@@ -1,34 +1,42 @@
 package ru.yandex.praktikum.plain;
 
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.openqa.selenium.By;
+import ru.yandex.praktikum.page.AboutRent;
+import ru.yandex.praktikum.page.ConfirmOrderPage;
 import ru.yandex.praktikum.page.MainPage;
 import ru.yandex.praktikum.page.OrderPage;
 
-import static ru.yandex.praktikum.page.constants.HomePageConstants.*;
-import static ru.yandex.praktikum.page.constants.HomePageConstants.TEXT_ANSWER_8;
-
 @RunWith(Parameterized.class)
-public class OrderTest extends BaseTest{
+public class OrderTest extends BaseTest {
 
     private final String button;
     private final String name;
     private final String surname;
     private final String adress;
     private final String phoneNumber;
+    private final String date;
+    private final String color;
+    private final String comment;
+    private final String expectedHeaderConfirmOrder = "Заказ оформлен";
+    private final int timeRent;
     private final int subwayNumber;
 
 
-    public OrderTest(String button, String name, String surname, String adress,String phoneNumber,int subwayNumber) {
+    public OrderTest(String button, String name, String surname, String adress, String phoneNumber, int subwayNumber, String date, int timeRent, String color, String comment) {
         this.button = button;
         this.name = name;
         this.surname = surname;
         this.adress = adress;
-        this.phoneNumber = adress;
+        this.phoneNumber = phoneNumber;
         this.subwayNumber = subwayNumber;
+        this.date = date;
+        this.timeRent = timeRent;
+        this.color = color;
+        this.comment = comment;
 
     }
 
@@ -36,8 +44,9 @@ public class OrderTest extends BaseTest{
     @Parameterized.Parameters
     public static Object[][] getParameters() {
         return new Object[][]{
-                {"header","Роман", "Марков","Пушкина 52","88005553535",23},
-                {"howItOrder","Марк", "Романов","Колотушкина 69","87005556565",35},
+                {"header", "Роман", "Марков", "Пушкина 52", "88005553535", 23, "22.05.2024", 7, "grey", "Хочу полную зарядку"},
+                {"howItOrder", "Марк", "Романов", "Колотушкина 52", "88559993432", 11, "22.05.2024", 7, "black", "Утром верну"},
+                {"header", "Сергей", "Сергеев", "чуйкова 52", "89003334343", 5, "22.05.2024", 7, "bothColor", "Украду"},
         };
     }
 
@@ -59,10 +68,23 @@ public class OrderTest extends BaseTest{
                 .nextButtonClick();
 
 
+        AboutRent aboutRent = new AboutRent(driver);
+        aboutRent
+                .waitForLoadRentPage()
+                .dateRentClearAndWrite(date)
+                .chooseTimeRent(timeRent)
+                .chooseColorRent(color)
+                .commentWrite(comment)
+                .rentButtonClick();
+
+
+        ConfirmOrderPage confirmOrderPage = new ConfirmOrderPage(driver);
+        confirmOrderPage
+                .waitLoadConfirmModal()
+                .orderModalYesButton();
+
+        Assert.assertEquals("Окно подтверждения не открылось", this.expectedHeaderConfirmOrder, confirmOrderPage.getHeaderModal());
     }
-
-
-
 
 
 }

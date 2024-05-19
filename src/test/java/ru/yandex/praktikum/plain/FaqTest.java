@@ -12,6 +12,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.openqa.selenium.By;
 import ru.yandex.praktikum.page.MainPage;
+
 import static ru.yandex.praktikum.page.constants.HomePageConstants.*;
 
 @RunWith(Parameterized.class)
@@ -38,7 +39,7 @@ public class FaqTest extends BaseTest {
                 {QUEST_7, ANSWER_7, TEXT_ANSWER_7},
                 {QUEST_8, ANSWER_8, TEXT_ANSWER_8},
         };
-          }
+    }
 
     @Test
     public void equalsAnswerQuestion() {

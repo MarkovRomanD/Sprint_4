@@ -5,14 +5,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-import java.util.Calendar;
 
 public class AboutRent {
     private final WebDriver driver;
     //локатор когда привезти самокат
     private final By dateRent = By.xpath("//input[@placeholder=\"* Когда привезти самокат\"]");
-    //локатор срок аренды
-    private final By timeRent = By.className("Dropdown-control");
+    //локатор поля срок аренды
+    private final By timeRent = By.className("Dropdown-arrow");
+    //локатор количества суток срока аренды
+    private final String timeRentDay = "//*[@class=\"Dropdown-option\"]";
     //локатор комментария
     private final By comment = By.xpath("//input[@placeholder=\"Комментарий для курьера\"]");
 
@@ -40,6 +41,34 @@ public class AboutRent {
         return this;
     }
 
+    public AboutRent chooseTimeRent(int duration) {
+        driver.findElement(timeRent).click();
+        driver.findElement(By.xpath(String.format(timeRentDay + "[%d]", duration))).click();
+        return this;
+    }
+
+    public AboutRent chooseColorRent(String color) {
+        if (color.equals("black")) {
+            driver.findElement(colorRentBlack).click();
+        } else if (color.equals("grey")) {
+            driver.findElement(colorRentGrey).click();
+        } else if (color.equals("bothColor")) {
+            driver.findElement(colorRentBlack).click();
+            driver.findElement(colorRentGrey).click();
+        }
+        return this;
+    }
+
+    public AboutRent commentWrite(String comments) {
+        driver.findElement(comment).clear();
+        driver.findElement(comment).sendKeys(comments);
+        return this;
+    }
+
+    public AboutRent rentButtonClick() {
+        driver.findElement(rentButton).click();
+        return this;
+    }
 
 
 }
