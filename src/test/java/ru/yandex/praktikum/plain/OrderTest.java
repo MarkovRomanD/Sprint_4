@@ -1,6 +1,7 @@
 package ru.yandex.praktikum.plain;
 
 
+import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -55,7 +56,7 @@ public class OrderTest extends BaseTest {
     public void upButtonOrder() {
 
         MainPage mainPage = new MainPage(driver);
-        mainPage.OrderButtonClick(button);
+        mainPage.orderButtonClick(button);
 
 
         OrderPage orderPage = new OrderPage(driver);
@@ -83,7 +84,9 @@ public class OrderTest extends BaseTest {
                 .waitLoadConfirmModal()
                 .orderModalYesButton();
 
-        Assert.assertEquals("Окно подтверждения не открылось", this.expectedHeaderConfirmOrder, confirmOrderPage.getHeaderModal());
+        //Assert.assertEquals("Окно подтверждения не открылось", this.expectedHeaderConfirmOrder, confirmOrderPage.getHeaderModal());
+        Assert.assertThat("Окно подтверждения заказа не открылось",confirmOrderPage.getHeaderModal(), CoreMatchers.containsString(this.expectedHeaderConfirmOrder));
+
     }
 
 

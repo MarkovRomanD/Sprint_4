@@ -15,6 +15,9 @@ import java.time.Duration;
 
 public class MainPage {
     private final WebDriver driver;
+    private final String question = "accordion__heading-";
+    private final String answer = "accordion__panel-";
+
     //кнопка заказать в хедере страницы
     private final By headerOrderButton = By.xpath("//*[@class=\"Header_Nav__AGCXC\"]/button[@class=\"Button_Button__ra12g\"]");
     //кнопка заказать в Как это заказать
@@ -63,7 +66,7 @@ public class MainPage {
         return this;
     }
 
-    public MainPage OrderButtonClick(String chooseButton) {
+    public MainPage orderButtonClick(String chooseButton) {
         if (chooseButton.equals("header")) {
             waitForLoadHomePage();
             driver.findElement(headerOrderButton).click();
@@ -76,4 +79,14 @@ public class MainPage {
         return this;
     }
 
+    public By getQuestion(int numQuestion) {
+        return By.id(String.format(question + "%d", numQuestion));
+    }
+
+    public By getAnswer(int numAnswer) {
+        return By.id(String.format(answer + "%d", numAnswer));
+    }
+
 }
+
+
