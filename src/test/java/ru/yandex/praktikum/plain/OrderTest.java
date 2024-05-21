@@ -84,7 +84,7 @@ public class OrderTest extends BaseTest {
                 .waitLoadConfirmModal()
                 .orderModalYesButton();
 
-        //Assert.assertEquals("Окно подтверждения не открылось", this.expectedHeaderConfirmOrder, confirmOrderPage.getHeaderModal());
+
         Assert.assertThat("Окно подтверждения заказа не открылось",confirmOrderPage.getHeaderModal(), CoreMatchers.containsString(this.expectedHeaderConfirmOrder));
 
     }
