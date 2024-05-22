@@ -21,6 +21,7 @@ public class BaseTest {
     public void startUp() {
         WebDriverManager.chromedriver().setup();
         this.driver = new ChromeDriver();
+
         this.driver.get("https://qa-scooter.praktikum-services.ru/");
     }
 
